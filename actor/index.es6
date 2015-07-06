@@ -8,7 +8,7 @@ export default class{
         this.keyframes.push({
             time: time,
             state: state,
-            ease: easing || linear
+            easing: easing || linear
         })
     }
 
@@ -34,7 +34,7 @@ export default class{
         var state = {};
         var duration = this.getDuration();
         Object.keys(prevState).forEach(key => {
-            state[key] = nextKeyframe.ease(t, duration, t/duration, prevState[key], nextState[key] - prevState[key])
+            state[key] = nextKeyframe.easing.ease(t, duration, t/duration, prevState[key], nextState[key] - prevState[key])
         });
         return state;
     }
