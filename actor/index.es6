@@ -1,3 +1,4 @@
+import {linear} from "../easings";
 export default class{
     constructor(){
         this.keyframes = [];
@@ -7,7 +8,7 @@ export default class{
         this.keyframes.push({
             time: time,
             state: state,
-            easing: easing || 'linear'
+            ease: easing || linear
         })
     }
 
@@ -31,8 +32,9 @@ export default class{
         var nextState = nextKeyframe.state;
 
         var state = {};
+        var duration = this.getDuration();
         Object.keys(prevState).forEach(key => {
-            state[key] = prevState[key] + ((nextState[key] - prevState[key]) * (t/this.getDuration()))
+            state[key] = nextKeyframe.ease(t, duration, t/duration, prevState[key], nextState[key] - prevState[key])
         });
         return state;
     }
