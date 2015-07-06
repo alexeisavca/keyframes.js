@@ -1,6 +1,7 @@
 export default function merge(){
     var res = {};
-    for(var obj in arguments){
+    for(var index in arguments){
+        var obj = arguments[index];
         for(var key in obj){
             res[key] = obj[key];
         }
