@@ -1,5 +1,5 @@
 import Actor from "./index";
-export default class OpacityActor extends Actor{
+export default class extends Actor{
     constructor(from, to, duration){
         super();
         this.addKeyframe(0, {
