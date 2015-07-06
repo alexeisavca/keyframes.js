@@ -19,5 +19,8 @@
   "bugs": {
     "url": "https://github.com/alexeisavca/keyframes.js/issues"
   },
-  "homepage": "https://github.com/alexeisavca/keyframes.js"
+  "homepage": "https://github.com/alexeisavca/keyframes.js",
+  "devDependencies": {
+    "babel-loader": "^5.3.1"
+  }
 }
