@@ -17,15 +17,14 @@ export default class{
     play(cb){
         var startedAt = new Date();
         var duration = this.getDuration();
-        var interval = setInterval(() => {
-            requestAnimationFrame(() => {
-                var now = new Date();
-                var diff = now - startedAt;
-                cb(this.getState(diff <= duration ? diff : duration));
-                if(diff >= duration){
-                    clearInterval(interval);
-                }
-            })
-        }, 1000/this.frames)
+        var renderFrame = () => {
+            var now = new Date();
+            var diff = now - startedAt;
+            cb(this.getState(diff <= duration ? diff : duration));
+            if(diff < duration){
+                requestAnimationFrame(renderFrame);
+            }
+        };
+        requestAnimationFrame(renderFrame);
     }
 }
