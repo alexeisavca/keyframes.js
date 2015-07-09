@@ -1,5 +1,14 @@
 import * as K from "./index.es6";
 window.K = K;
-window.rect = document.getElementById('rect');
-window.circle = document.getElementById('circle');
-window.pic = document.getElementById('pic');
+var ace = require('brace');
+require('brace/mode/javascript');
+require('brace/theme/monokai');
+
+for(var counter = 1; counter <= 2; counter++){
+    let editor = ace.edit(`editor-${counter}`);
+    editor.getSession().setMode('ace/mode/javascript');
+    editor.setTheme('ace/theme/monokai');
+    document.getElementById(`launch-${counter}`).addEventListener("click", function(){
+        eval(editor.getSession().getValue());
+    })
+}

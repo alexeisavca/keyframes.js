@@ -1,21 +1,29 @@
 .container{
-    margin-top: 50px;
+    margin-top: 10px;
 }
 
-#rect, #circle{
+.jumbotron{
+    margin-top: 10px;
+}
+
+.rect, .circle{
     width: 100px;
     height: 100px;
 }
 
-#rect{
+.rect{
     background: red;
 }
 
-#circle{
+.circle{
     background: green;
     border-radius: 50%;
 }
 
 #pic{
     width: 100%;
+}
+
+.editor{
+    min-height: 500px;
 }

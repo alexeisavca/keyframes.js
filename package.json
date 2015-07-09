@@ -22,5 +22,8 @@
   "homepage": "https://github.com/alexeisavca/keyframes.js",
   "devDependencies": {
     "babel-loader": "^5.3.1"
+  },
+  "dependencies": {
+    "brace": "^0.5.1"
   }
 }

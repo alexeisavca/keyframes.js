@@ -9,21 +9,56 @@
 <body>
     <div class="container">
         <div class="row">
-            <div class="jumbotron">
+            <div class="col-md-12 text-center">
+                <a href="https://github.com/alexeisavca/keyframes.js">View source and documentation on github</a>
+            </div>
+            <div class="jumbotron col-md-12">
+                <h1>Press <code>F12</code> and have fun!</h1>
                 <p>
-                    The rectangle DOM element is available in global scope as <var>rect</var>, the circle is <var>circle</var>,<br/>
-                    the picture is <var>pic</var>. The keyframes library can be accessed via <var>K</var> global variable.<br/>
-                    Press <code>F12</code> and have fun!
+                    The keyframes library can be accessed via <var>K</var> global variable.<br/>
+                    The shape ids are <var>#shape-1</var>, <var>#shape-2</var>, <var>#shape-3</var> and so on.
                 </p>
+                <p>...or just play around with examples below...</p>
+            </div>
+            <h2 class="col-md-12">
+                Hide/show
+            </h2>
+            <div class="col-md-8">
+                <div id="editor-1" class="editor">
+var hide = K.tween({
+    transform: "scale(1) rotate(0deg)",
+    opacity: 1
+}, {
+    transform: "scale(0.1) rotate(90deg)",
+    opacity: 0
+});
+var hideThenShow = K.toAndFrom(hide);
+K.stream(2000, K.easings.easeInOutExpo(hideThenShow), K.intoDom(document.getElementById('shape-1')));
+                </div>
+                <button class="btn success btn-block" id="launch-1">Run</button>
             </div>
             <div class="col-md-4">
-                <div id="rect"></div>
+                <div id="shape-1" class="rect"></div>
+            </div>
+            <h2 class="col-md-12">
+                Hide/show
+            </h2>
+            <div class="col-md-8">
+                <div id="editor-2" class="editor">
+var roll = K.tween({
+transformOrigin: "100% 100%",
+transform: "rotateZ(0deg)"
+}, {
+transformOrigin: "100% 100%",
+transform: "rotateZ(90deg)"
+});
+var roll4times = K.repeat(4, roll);
+K.stream(1000, roll4times, K.intoDom(document.getElementById("shape-2")));
+                </div>
+                <button class="btn success btn-block" id="launch-2">Run</button>
             </div>
             <div class="col-md-4">
-                <div id="circle"></div>
-            </div>
-            <div class="col-md-4">
-                <img src="http://lorempixel.com/400/400/" alt="" id="pic"/>
+                <div id="shape-2" class="rect"></div>
             </div>
         </div>
     </div>
