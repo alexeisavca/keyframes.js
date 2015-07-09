@@ -35,6 +35,17 @@ export var linger = (t, animation) => chain({
     [t]: ensure(animation(1))
 });
 
+export var foreshadow = (t, animation) => chain({
+    0: ensure(animation(0)),
+    [t]: animation
+});
+
+export var imposePresence = (from, to, animation) => chain({
+    0: ensure(animation(0)),
+    [from]: animation,
+    [to]: ensure(animation(1))
+});
+
 export var toAndFrom = animation => chain({
     0: animation,
     .5: reverse(animation)

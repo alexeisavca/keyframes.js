@@ -122,6 +122,22 @@ module.exports =
 	};
 
 	exports.linger = linger;
+	var foreshadow = function foreshadow(t, animation) {
+	    return chain(_defineProperty({
+	        0: ensure(animation(0))
+	    }, t, animation));
+	};
+
+	exports.foreshadow = foreshadow;
+	var imposePresence = function imposePresence(from, to, animation) {
+	    var _chain3;
+
+	    return chain((_chain3 = {
+	        0: ensure(animation(0))
+	    }, _defineProperty(_chain3, from, animation), _defineProperty(_chain3, to, ensure(animation(1))), _chain3));
+	};
+
+	exports.imposePresence = imposePresence;
 	var toAndFrom = function toAndFrom(animation) {
 	    return chain({
 	        0: animation,

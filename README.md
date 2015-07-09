@@ -143,6 +143,14 @@ chain({
   .3: ensureProperty('transform', 'rotateZ(90deg)')
 })
 ```
+###foreshadow(t, animation)
+The counterpart of linger. Will staticly persist the animation's first frame until t, then will play the animation until the end
+###imposePresence(from, to, animation)
+A marriage of _foreshadow_ and _linger,_ will persist the animation's first frame until _from,_ will animate the animation from _from_ to _to_ and will persist its last frame from _to_ till the end.
+Keep in mind it is **not** the same as
+```js
+foreshadow(from, linger(to, animation)
+```
 ###toAndFrom(animation)
 Will chain the animation with its reverse, the first animation will end and the second will start at .5. The example above could be written as
 ```js
