@@ -81,8 +81,8 @@ export var chain = animations =>
 
 export function chainEvenly(){
     var timings = {};
-    Object.keys(arguments).forEach((animation, index) => {
-        timings[index/arguments.length] = animation;
+    Object.keys(arguments).forEach(index => {
+        timings[index/arguments.length] = arguments[index];
     });
     return chain(timings);
 }
