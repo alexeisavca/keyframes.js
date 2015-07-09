@@ -69,7 +69,7 @@ export function stream(duration, tween, cb){
         var now = new Date();
         var elapsed = now - start;
         var t = elapsed / duration;
-        cb(tween(t <= duration ? t : 1));
+        cb(tween(t <= 1 ? t : 1));
         if(elapsed < duration){
             requestAnimationFrame(doFrame);
         }
