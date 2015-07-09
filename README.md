@@ -131,6 +131,8 @@ var blink = chain({
   .5: fadeIn
 })
 ```
+###chainEvenly(animation1, animation2, animation3...)
+Will chain all the animations passed as arguments, each one receiving a 1/nrArguments in parents' timeline
 ###merge(animation1, animation2, animation3...)
 Merges animations, i.e. "executes" them in parallel.
 ```js

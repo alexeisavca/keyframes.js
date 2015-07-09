@@ -50,6 +50,7 @@ module.exports =
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
 	});
+	exports.chainEvenly = chainEvenly;
 	exports.merge = merge;
 	exports.stream = stream;
 	exports.infiniteStream = infiniteStream;
@@ -187,6 +188,16 @@ module.exports =
 	};
 
 	exports.chain = chain;
+
+	function chainEvenly() {
+	    var _arguments2 = arguments;
+
+	    var timings = {};
+	    Object.keys(arguments).forEach(function (animation, index) {
+	        timings[index / _arguments2.length] = animation;
+	    });
+	    return chain(timings);
+	}
 
 	function merge() {
 	    var _arguments = arguments;

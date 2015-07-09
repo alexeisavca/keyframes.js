@@ -79,6 +79,14 @@ export var chain = animations =>
         return currentanimation(relativeT);
     };
 
+export function chainEvenly(){
+    var timings = {};
+    Object.keys(arguments).forEach((animation, index) => {
+        timings[index/arguments.length] = animation;
+    });
+    return chain(timings);
+}
+
 export function merge(){
     var _arguments = arguments;
     return t => mergeObj.apply(null, Object.keys(_arguments).map(key => _arguments[key](t)));
