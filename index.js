@@ -165,7 +165,7 @@ module.exports =
 	        cb(animation(t <= 1 ? t : 1));
 	        if (elapsed < duration) {
 	            requestAnimationFrame(doFrame);
-	        } else {
+	        } else if ("function" == typeof onEnd) {
 	            onEnd();
 	        }
 	    };
