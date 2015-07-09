@@ -73,3 +73,18 @@ var blink4times = K.repeat(4, blink);
 var blink4timesEased = K.easeInOutExpo(blink4times);
 K.animate(1000, document.getElementById('the-thing'), blink4timesEased)
 ```
+##Book IV: The API of the righteous
+"Use these tools, understand and accept them, as it is promised, he who does so will surely achieve enlightment!"
+###tween(Object from, Object to)
+Returns an animation that connects the from and to states
+```js
+var fadeOut = tween({
+  opacity: 1
+}, {
+  opacity: 0
+});
+
+fadeOut(0);//{opacity: 0}
+fadeOut(.5);//opacity: .5}
+fadeOut(.75);//opacity: .75
+```
