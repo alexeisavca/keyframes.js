@@ -1,11 +1,10 @@
 module.exports = {
     entry: {
-        install: "./index.es6",
+        install: "./script.es6",
     },
     output: {
         path: './',
-        filename: "index.js",
-        libraryTarget: 'commonjs2'
+        filename: "script.js"
     },
     module: {
         loaders: [
