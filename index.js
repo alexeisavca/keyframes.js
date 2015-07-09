@@ -154,7 +154,7 @@ module.exports =
 
 	exports.prerender = prerender;
 
-	function stream(duration, tween, cb) {
+	function stream(duration, tween, cb, onEnd) {
 	    cb(tween(0));
 	    var start = new Date();
 	    var doFrame = function doFrame() {
@@ -164,6 +164,8 @@ module.exports =
 	        cb(tween(t <= 1 ? t : 1));
 	        if (elapsed < duration) {
 	            requestAnimationFrame(doFrame);
+	        } else {
+	            onEnd();
 	        }
 	    };
 	    requestAnimationFrame(doFrame);

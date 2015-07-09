@@ -127,8 +127,9 @@ var blink = toAndFrom(transition('opacity', 1, 0));
 Will chain the animation with itself _times_ times, **t** will be distributed evenly between all the subanimations, each one will consume 1/times of parent **t.**
 ###prerender(ms, animation)
 Will map the animation as to run during _ms_ milliseconds(60 fps) and cache the result, will return a function that will return the result from that cache.
-###stream(ms, animation, cb)
+###stream(ms, animation, cb, onEnd)
 Will execute the animation in real time(using requestAnimationFrame) during _ms_ milliseconds, will call cb with the current state.
+Will call onEnd after the animation has ended.
 ```js
 stream(1000, transition('opacity', 1, 0.5'), state => console.log(state))//{opacity: 0.1}, {opacity: 0.2}, opacity{0.3}...
 ```

@@ -61,7 +61,7 @@ export var prerender = (time, tween) => {
     return t => frames[Math.round(totalFrames * t)];
 };
 
-export function stream(duration, tween, cb){
+export function stream(duration, tween, cb, onEnd){
     cb(tween(0));
     var start = new Date();
     var doFrame = () => {
@@ -71,6 +71,8 @@ export function stream(duration, tween, cb){
         cb(tween(t <= 1 ? t : 1));
         if(elapsed < duration){
             requestAnimationFrame(doFrame);
+        } else {
+            onEnd();
         }
     };
     requestAnimationFrame(doFrame);
