@@ -196,6 +196,11 @@ easeInQuad(animation)
 * easeInCirc
 * easeOutCirc
 * easeInOutCirc
+* __Roll your own!__ Add your easing function to keyframes.js/easings and then create a pull request.
 
 ##Book V: Practicing the Tao
 [Demo/Playground](http://alexeisavca.github.io/keyframes.js)
+
+##Book VI: Implementations:
+* [React](https://github.com/alexeisavca/flux-animations)
+* __Roll your own!__ Write a function that can be used as a callback for _stream_ and works with your favourite framework/library, and then submit a pull request. Or write a plugin and link it here in README
