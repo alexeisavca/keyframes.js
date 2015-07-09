@@ -206,20 +206,30 @@ module.exports =
 
 /***/ },
 /* 1 */
-/***/ function(module, exports) {
+/***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
 	});
+
+	var _toolsNumberInterpolation = __webpack_require__(2);
+
 	var ease = function ease(func, tween) {
 	    return function (t) {
 	        var initialState = tween(0);
 	        var currentState = tween(t);
 	        var easedState = {};
 	        Object.keys(initialState).forEach(function (property) {
-	            easedState[property] = func(t, 1, t, initialState[property], currentState[property] - initialState[property]);
+	            var strInitial = initialState[property] + "";
+	            var numbersPlaceholder = (0, _toolsNumberInterpolation.placeholdNumbers)(strInitial);
+	            var initialNumbers = (0, _toolsNumberInterpolation.extractNumbers)(strInitial);
+	            var strCurrent = currentState[property];
+	            var currentNumbers = (0, _toolsNumberInterpolation.extractNumbers)(strCurrent);
+	            easedState[property] = (0, _toolsNumberInterpolation.interpolateNumbers)(numbersPlaceholder, initialNumbers.map(function (number, index) {
+	                return func(t, 1, t, number, currentNumbers[index] - number);
+	            }));
 	        });
 	        return easedState;
 	    };

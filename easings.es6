@@ -1,10 +1,17 @@
+import {sanitizeProperties, unsanitizeProperties, placeholdNumbers, extractNumbers, interpolateNumbers} from "./tools/number-interpolation";
 export var  ease = (func, tween) =>
     t => {
         var initialState = tween(0);
         var currentState = tween(t);
         var easedState = {};
         Object.keys(initialState).forEach(property => {
-            easedState[property] = func(t, 1, t, initialState[property], currentState[property] - initialState[property]);
+            var strInitial = initialState[property] + "";
+            var numbersPlaceholder = placeholdNumbers(strInitial);
+            var initialNumbers = extractNumbers(strInitial);
+            var strCurrent = currentState[property];
+            var currentNumbers = extractNumbers(strCurrent);
+            easedState[property] = interpolateNumbers(numbersPlaceholder, initialNumbers.map((number, index) =>
+                func(t, 1, t, number, currentNumbers[index] - number)))
         });
         return easedState;
     };
