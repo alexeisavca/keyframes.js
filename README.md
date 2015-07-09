@@ -71,7 +71,7 @@ var fadeOut = K.property('opacity', 1, 0);
 var blink = K.toAndFrom(fadeOut);
 var blink4times = K.repeat(4, blink);
 var blink4timesEased = K.easings.easeInOutExpo(blink4times);
-K.animate(1000, document.getElementById('the-thing'), blink4timesEased)
+K.stream(1000, blink4timesEased, K.intoDom(document.getElementById('the-thing')));
 ```
 ##Book IV: The API of the righteous
 "Use these tools, understand and accept them, as it is promised, he who does so will surely achieve enlightment!"
@@ -131,6 +131,11 @@ Will map the animation as to run during _ms_ milliseconds(60 fps) and cache the 
 Will execute the animation in real time(using requestAnimationFrame) during _ms_ milliseconds, will call cb with the current state.
 ```js
 stream(1000, transition('opacity', 1, 0.5'), state => console.log(state))//{opacity: 0.1}, {opacity: 0.2}, opacity{0.3}...
+```
+###intoDom(DOMElement)
+Returns a function that takes a state as an argument an applies it to the DOMElement. Use with stream:
+```js
+stream(1000, animations, intoDom(document.getElementById('the-target')))
 ```
 ###Easings
 ```js

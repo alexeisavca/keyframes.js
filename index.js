@@ -169,15 +169,15 @@ module.exports =
 	    requestAnimationFrame(doFrame);
 	}
 
-	var animate = function animate(ms, DOMElement, animation) {
-	    return stream(ms, animation, function (state) {
+	var intoDom = function intoDom(DOMElement) {
+	    return function (state) {
 	        return Object.keys(state).forEach(function (property) {
 	            return DOMElement.style[property] = state[property];
 	        });
-	    });
+	    };
 	};
 
-	exports.animate = animate;
+	exports.intoDom = intoDom;
 	exports.easings = easings;
 
 /***/ },
