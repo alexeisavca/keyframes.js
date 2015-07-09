@@ -79,6 +79,7 @@
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
 	});
+	exports.chainEvenly = chainEvenly;
 	exports.merge = merge;
 	exports.stream = stream;
 	exports.infiniteStream = infiniteStream;
@@ -127,6 +128,13 @@
 	};
 
 	exports.tween = tween;
+	var jolt = function jolt(from, to) {
+	    return function (t) {
+	        return t < 1 ? from : to;
+	    };
+	};
+
+	exports.jolt = jolt;
 	var transition = function transition(property, from, to) {
 	    return tween(_defineProperty({}, property, from), _defineProperty({}, property, to));
 	};
@@ -216,6 +224,16 @@
 	};
 
 	exports.chain = chain;
+
+	function chainEvenly() {
+	    var _arguments2 = arguments;
+
+	    var timings = {};
+	    Object.keys(arguments).forEach(function (index) {
+	        timings[index / _arguments2.length] = _arguments2[index];
+	    });
+	    return chain(timings);
+	}
 
 	function merge() {
 	    var _arguments = arguments;

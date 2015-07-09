@@ -21,20 +21,24 @@
                 <p>...or just play around with examples below...</p>
             </div>
             <h2 class="col-md-12">
-                Hide/show
+                Roll
             </h2>
             <div class="col-md-8">
                 <div id="editor-1" class="editor">
-var hide = K.tween({
-    transform: "scale(1) rotate(0deg)",
-    opacity: 1
-}, {
-    transform: "scale(0.1) rotate(90deg)",
-    opacity: 0
-});
-var hidAndLinger = K.linger(.25, hide);
-var hideThenShow = K.toAndFrom(hidAndLinger);
-K.stream(2000, K.easings.easeInOutExpo(hideThenShow), K.intoDom(document.getElementById('shape-1')));
+var moveRight = K.chainEvenly(
+    K.ensureProperty('marginLeft', "0px"),
+    K.ensureProperty('marginLeft', "100px"),
+    K.ensureProperty('marginLeft', "200px"),
+    K.ensureProperty('marginLeft', "300px")
+);
+var ensureTransformOrigin = K.ensureProperty("transform-origin", "100% 100%");
+var rotate90deg = K.transition('transform', 'rotateZ(0deg)', 'rotateZ(90deg)');
+var rotate90degEased = K.easings.easeInOutExpo(rotate90deg)
+var rotate90deg4times = K.repeat(4, rotate90degEased);
+var roll = K.merge(ensureTransformOrigin, rotate90deg4times, moveRight);
+var rollAndWaitABit = K.linger(.90, roll);
+var rollRightThenBack = K.toAndFrom(rollAndWaitABit);
+K.stream(4000, K.prerender(rollRightThenBack), K.intoDom(document.getElementById('shape-1')))
                 </div>
                 <button class="btn success btn-block" id="launch-1">Run</button>
             </div>
@@ -46,15 +50,16 @@ K.stream(2000, K.easings.easeInOutExpo(hideThenShow), K.intoDom(document.getElem
             </h2>
             <div class="col-md-8">
                 <div id="editor-2" class="editor">
-var roll = K.tween({
-transformOrigin: "100% 100%",
-transform: "rotateZ(0deg)"
+var hide = K.tween({
+    transform: "scale(1) rotate(0deg)",
+    opacity: 1
 }, {
-transformOrigin: "100% 100%",
-transform: "rotateZ(90deg)"
+    transform: "scale(0.1) rotate(90deg)",
+    opacity: 0
 });
-var roll4times = K.repeat(4, roll);
-K.stream(1000, roll4times, K.intoDom(document.getElementById("shape-2")));
+var hidAndLinger = K.linger(.25, hide);
+var hideThenShow = K.toAndFrom(hidAndLinger);
+K.stream(2000, K.easings.easeInOutExpo(hideThenShow), K.intoDom(document.getElementById('shape-2')));
                 </div>
                 <button class="btn success btn-block" id="launch-2">Run</button>
             </div>
