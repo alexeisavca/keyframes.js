@@ -27,10 +27,10 @@ And so the Tao spoke:
 
 "My child, you've been up all night, your body is tired from sleep deprivation, you're eyes are red from reading too much bad
 code, and your mind is taunted from playing too much StarCraft! Go now, light the holy fire, and put a kettle upon it, and from
-that kettle you shall pour yourself a very strong coffee, the drink of the gods! Let the sacred drink of coffee flow inside
+that kettle you shall pour yourself a very strong coffee, the drink of the gods! Let the sacred fluid of coffee flow inside
 you, and you shall see!"
 
-And thus he saw, drinking the divine ambrosia and staring into city lights, he finally saw!
+And thus he saw, drinking the divine ambrosia and staring into city lights, he saw!
 
 ##Book II: Introduction
 In the beginning there was T, and there was S. And T was time, and S was state, and T was a set of real numbers from 0 to 1, 0 being the beginning of all things, and 1 the end of them. And S was the set of the possible CSS styles, all the combinations of CSS, CSS3 and even vendor specific properties existed within S. And from the fusion of T and S, there was a function of T upon S, f: T -> S.
