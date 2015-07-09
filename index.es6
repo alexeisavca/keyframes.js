@@ -1,5 +1,6 @@
 export const FRAMES = 60;
 export const T_PER_FRAME = 1 / FRAMES;
+import * as easings from "./easings";
 
 //given an initial start and end state...
 export var tween = (from, to) =>
@@ -75,3 +76,5 @@ export function stream(duration, tween, cb){
     };
     requestAnimationFrame(doFrame);
 }
+
+export {easings as easings};
