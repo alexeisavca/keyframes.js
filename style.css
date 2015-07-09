@@ -1,0 +1,21 @@
+.container{
+    margin-top: 50px;
+}
+
+#rect, #circle{
+    width: 100px;
+    height: 100px;
+}
+
+#rect{
+    background: red;
+}
+
+#circle{
+    background: green;
+    border-radius: 50%;
+}
+
+#pic{
+    width: 100%;
+}

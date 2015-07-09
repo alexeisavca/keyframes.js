@@ -3,8 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <title>Keyframes.js</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="style.css"/>
 </head>
 <body>
+    <div class="container">
+        <div class="row">
+            <div class="jumbotron">
+                <p>
+                    The rectangle DOM element is available in global scope as <var>rect</var>, the circle is <var>circle</var>,<br/>
+                    the picture is <var>pic</var>. The keyframes library can be accessed via <var>K</var> global variable.<br/>
+                    Press <code>F12</code> and have fun!
+                </p>
+            </div>
+            <div class="col-md-4">
+                <div id="rect"></div>
+            </div>
+            <div class="col-md-4">
+                <div id="circle"></div>
+            </div>
+            <div class="col-md-4">
+                <img src="http://lorempixel.com/400/400/" alt="" id="pic"/>
+            </div>
+        </div>
+    </div>
 
 </body>
 </html>
