@@ -59,3 +59,17 @@ rotate(h/d);
 I have just made the Earth rotate!"
 
 And the Earth span, and there was Day and there was Night, and by the end of the Night the programmer was enlightened.
+
+##Book III: Enlighment
+"Behold! For this is the code of the righteous!"
+```
+npm install keyframes.js
+```
+```js
+import * as K from "keyframes.js"
+var fadeOut = K.property('opacity', 1, 0);
+var blink = K.toAndFrom(fadeOut);
+var blink4times = K.repeat(4, blink);
+var blink4timesEased = K.easeInOutExpo(blink4times);
+K.animate(1000, document.getElementById('the-thing'), blink4timesEased)
+```
