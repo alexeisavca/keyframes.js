@@ -50,8 +50,11 @@ module.exports =
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
 	});
+	exports.merge = merge;
 	exports.stream = stream;
 	exports.infiniteStream = infiniteStream;
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj["default"] = obj; return newObj; } }
 
@@ -62,6 +65,10 @@ module.exports =
 	var easings = _interopRequireWildcard(_easings);
 
 	var _toolsNumberInterpolation = __webpack_require__(2);
+
+	var _toolsMerge = __webpack_require__(3);
+
+	var _toolsMerge2 = _interopRequireDefault(_toolsMerge);
 
 	var FRAMES = 60;
 	exports.FRAMES = FRAMES;
@@ -103,6 +110,11 @@ module.exports =
 	};
 
 	exports.ensure = ensure;
+	var ensureProperty = function ensureProperty(property, value) {
+	    return ensure(_defineProperty({}, property, value));
+	};
+
+	exports.ensureProperty = ensureProperty;
 	var reverse = function reverse(animation) {
 	    return function (t) {
 	        return animation(1 - t);
@@ -110,6 +122,29 @@ module.exports =
 	};
 
 	exports.reverse = reverse;
+	var linger = function linger(t, animation) {
+	    return chain(_defineProperty({
+	        0: animation
+	    }, t, ensure(animation(1))));
+	};
+
+	exports.linger = linger;
+	var foreshadow = function foreshadow(t, animation) {
+	    return chain(_defineProperty({
+	        0: ensure(animation(0))
+	    }, t, animation));
+	};
+
+	exports.foreshadow = foreshadow;
+	var imposePresence = function imposePresence(from, to, animation) {
+	    var _chain3;
+
+	    return chain((_chain3 = {
+	        0: ensure(animation(0))
+	    }, _defineProperty(_chain3, from, animation), _defineProperty(_chain3, to, ensure(animation(1))), _chain3));
+	};
+
+	exports.imposePresence = imposePresence;
 	var toAndFrom = function toAndFrom(animation) {
 	    return chain({
 	        0: animation,
@@ -152,6 +187,16 @@ module.exports =
 	};
 
 	exports.chain = chain;
+
+	function merge() {
+	    var _arguments = arguments;
+	    return function (t) {
+	        return _toolsMerge2["default"].apply(null, Object.keys(_arguments).map(function (key) {
+	            return _arguments[key](t);
+	        }));
+	    };
+	}
+
 	var prerender = function prerender(time, animation) {
 	    var totalFrames = time / 1000 * FRAMES;
 	    var frames = [];
@@ -422,6 +467,30 @@ module.exports =
 	    }, string));
 	};
 	exports.interpolateNumbers = interpolateNumbers;
+
+/***/ },
+/* 3 */
+/***/ function(module, exports) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	exports["default"] = merge;
+
+	function merge() {
+	    var res = {};
+	    for (var index in arguments) {
+	        var obj = arguments[index];
+	        for (var key in obj) {
+	            res[key] = obj[key];
+	        }
+	    }
+	    return res;
+	}
+
+	module.exports = exports["default"];
 
 /***/ }
 /******/ ]);
