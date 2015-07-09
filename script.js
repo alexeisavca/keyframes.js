@@ -128,13 +128,6 @@
 	};
 
 	exports.tween = tween;
-	var jolt = function jolt(from, to) {
-	    return function (t) {
-	        return t < 1 ? from : to;
-	    };
-	};
-
-	exports.jolt = jolt;
 	var transition = function transition(property, from, to) {
 	    return tween(_defineProperty({}, property, from), _defineProperty({}, property, to));
 	};
