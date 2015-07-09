@@ -67,6 +67,7 @@
 	    value: true
 	});
 	exports.stream = stream;
+	exports.infiniteStream = infiniteStream;
 
 	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj["default"] = obj; return newObj; } }
 
@@ -75,6 +76,8 @@
 	var _easings = __webpack_require__(2);
 
 	var easings = _interopRequireWildcard(_easings);
+
+	var _toolsNumberInterpolation = __webpack_require__(3);
 
 	var FRAMES = 60;
 	exports.FRAMES = FRAMES;
@@ -87,8 +90,16 @@
 	            return Object.keys(from).reduce(
 	            //...for all the properties(width, height, opacity) of the initial state...
 	            function (state, property) {
-	                //...will compute the intermediary state at t
-	                state[property] = from[property] + (to[property] - from[property]) * t;
+	                //...will extract numbers from the string("12px" => 12)
+	                var strFrom = from[property] + "";
+	                var numbersPlaceholder = (0, _toolsNumberInterpolation.placeholdNumbers)(strFrom);
+	                var fromNumbers = (0, _toolsNumberInterpolation.extractNumbers)(strFrom);
+	                var strTo = to[property] + "";
+	                var toNumbers = (0, _toolsNumberInterpolation.extractNumbers)(strTo);
+	                //...will compute the intermediary state of each number at t and will merge them into a CSS string again
+	                state[property] = (0, _toolsNumberInterpolation.interpolateNumbers)(numbersPlaceholder, fromNumbers.map(function (number, index) {
+	                    return number + (toNumbers[index] - number) * t;
+	                }));
 	                return state;
 	            }, {});
 	        }
@@ -108,60 +119,60 @@
 	};
 
 	exports.ensure = ensure;
-	var reverse = function reverse(tween) {
+	var reverse = function reverse(animation) {
 	    return function (t) {
-	        return tween(1 - t);
+	        return animation(1 - t);
 	    };
 	};
 
 	exports.reverse = reverse;
-	var toAndFrom = function toAndFrom(tween) {
+	var toAndFrom = function toAndFrom(animation) {
 	    return chain({
-	        0: tween,
-	        .5: reverse(tween)
+	        0: animation,
+	        .5: reverse(animation)
 	    });
 	};
 
 	exports.toAndFrom = toAndFrom;
-	var repeat = function repeat(times, tween) {
-	    var tweens = {};
+	var repeat = function repeat(times, animation) {
+	    var animations = {};
 	    for (var counter = 1; counter <= times; counter++) {
-	        tweens[1 - counter / times] = tween;
+	        animations[1 - counter / times] = animation;
 	    }
-	    return chain(tweens);
+	    return chain(animations);
 	};
 
 	exports.repeat = repeat;
-	var chain = function chain(tweens) {
+	var chain = function chain(animations) {
 	    return function (t) {
-	        //get the keys(starting time) of all the tweens, ensure they're floats, then find all that precede t or start at t
-	        //the tween with the max starting time of those will be current tween
-	        var currentTweenIndex = Math.max.apply(null, Object.keys(tweens).map(parseFloat).filter(function (time) {
+	        //get the keys(starting time) of all the animations, ensure they're floats, then find all that precede t or start at t
+	        //the animation with the max starting time of those will be current animation
+	        var currentanimationIndex = Math.max.apply(null, Object.keys(animations).map(parseFloat).filter(function (time) {
 	            return time <= t;
 	        }));
-	        var currentTween = tweens[currentTweenIndex];
-	        var tweenDuration =
+	        var currentanimation = animations[currentanimationIndex];
+	        var animationDuration =
 	        /*
-	         get the keys(starting time) of all the tweens, ensure they're all floats, then find all that succeed t
-	         (but not those that start at t, because without that condition we might get the current tween itself)
-	         Add 1(end of the chain) in case current tween is the last one. The lowest number of those will be the t
-	         when current tween ends, we subtract the current tween's starting t to get its duration.
+	         get the keys(starting time) of all the animations, ensure they're all floats, then find all that succeed t
+	         (but not those that start at t, because without that condition we might get the current animation itself)
+	         Add 1(end of the chain) in case current animation is the last one. The lowest number of those will be the t
+	         when current animation ends, we subtract the current animation's starting t to get its duration.
 	        */
-	        Math.min.apply(null, Object.keys(tweens).map(parseFloat).filter(function (time) {
+	        Math.min.apply(null, Object.keys(animations).map(parseFloat).filter(function (time) {
 	            return time > t;
-	        }).concat(1.0)) - currentTweenIndex;
+	        }).concat(1.0)) - currentanimationIndex;
 
-	        var relativeT = (t - currentTweenIndex) / tweenDuration;
-	        return currentTween(relativeT);
+	        var relativeT = (t - currentanimationIndex) / animationDuration;
+	        return currentanimation(relativeT);
 	    };
 	};
 
 	exports.chain = chain;
-	var prerender = function prerender(time, tween) {
+	var prerender = function prerender(time, animation) {
 	    var totalFrames = time / 1000 * FRAMES;
 	    var frames = [];
 	    for (var frame = 0; frame <= totalFrames; frame++) {
-	        frames[frame] = tween(frame / totalFrames);
+	        frames[frame] = animation(frame / totalFrames);
 	    }
 	    return function (t) {
 	        return frames[Math.round(totalFrames * t)];
@@ -170,48 +181,71 @@
 
 	exports.prerender = prerender;
 
-	function stream(duration, tween, cb) {
-	    cb(tween(0));
+	function stream(duration, animation, cb, onEnd) {
+	    cb(animation(0));
 	    var start = new Date();
 	    var doFrame = function doFrame() {
 	        var now = new Date();
 	        var elapsed = now - start;
 	        var t = elapsed / duration;
-	        cb(tween(t <= 1 ? t : 1));
+	        cb(animation(t <= 1 ? t : 1));
 	        if (elapsed < duration) {
 	            requestAnimationFrame(doFrame);
+	        } else if ("function" == typeof onEnd) {
+	            onEnd();
 	        }
 	    };
 	    requestAnimationFrame(doFrame);
 	}
 
-	var animate = function animate(ms, DOMElement, animation) {
-	    return stream(ms, animation, function (state) {
+	function infiniteStream(duration, animation, cb) {
+	    var ended = false;
+	    var restartLoop = function restartLoop() {
+	        stream(duration, animation, cb, restartLoop);
+	    };
+	    stream(duration, animation, cb, restartLoop);
+	    return function () {
+	        ended = true;
+	    };
+	}
+
+	var intoDom = function intoDom(DOMElement) {
+	    return function (state) {
 	        return Object.keys(state).forEach(function (property) {
 	            return DOMElement.style[property] = state[property];
 	        });
-	    });
+	    };
 	};
 
-	exports.animate = animate;
+	exports.intoDom = intoDom;
 	exports.easings = easings;
 
 /***/ },
 /* 2 */
-/***/ function(module, exports) {
+/***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
 	});
+
+	var _toolsNumberInterpolation = __webpack_require__(3);
+
 	var ease = function ease(func, tween) {
 	    return function (t) {
 	        var initialState = tween(0);
 	        var currentState = tween(t);
 	        var easedState = {};
 	        Object.keys(initialState).forEach(function (property) {
-	            easedState[property] = func(t, 1, t, initialState[property], currentState[property] - initialState[property]);
+	            var strInitial = initialState[property] + "";
+	            var numbersPlaceholder = (0, _toolsNumberInterpolation.placeholdNumbers)(strInitial);
+	            var initialNumbers = (0, _toolsNumberInterpolation.extractNumbers)(strInitial);
+	            var strCurrent = currentState[property];
+	            var currentNumbers = (0, _toolsNumberInterpolation.extractNumbers)(strCurrent);
+	            easedState[property] = (0, _toolsNumberInterpolation.interpolateNumbers)(numbersPlaceholder, initialNumbers.map(function (number, index) {
+	                return func(t, 1, t, number, currentNumbers[index] - number);
+	            }));
 	        });
 	        return easedState;
 	    };
@@ -371,6 +405,39 @@
 	});
 	//END Robert Penner's easing formulas
 	exports.easeInOutCirc = easeInOutCirc;
+
+/***/ },
+/* 3 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	Object.defineProperty(exports, '__esModule', {
+	    value: true
+	});
+	var NUMBER_REGEXP = /[-]?(0|[1-9][0-9]*)(\.[0-9]+)?([eE][+-]?[0-9]+)?/g;
+	var sanitizeProperties = function sanitizeProperties(property) {
+	    return property.replace('3d', 'THREE_D');
+	};
+	exports.sanitizeProperties = sanitizeProperties;
+	var unsanitizeProperties = function unsanitizeProperties(property) {
+	    return property.replace('THREE_D', '3d');
+	};
+	exports.unsanitizeProperties = unsanitizeProperties;
+	var placeholdNumbers = function placeholdNumbers(string) {
+	    return sanitizeProperties(string).replace(NUMBER_REGEXP, '$');
+	};
+	exports.placeholdNumbers = placeholdNumbers;
+	var extractNumbers = function extractNumbers(string) {
+	    return string.match(NUMBER_REGEXP).map(parseFloat);
+	};
+	exports.extractNumbers = extractNumbers;
+	var interpolateNumbers = function interpolateNumbers(string, numbers) {
+	    return unsanitizeProperties(numbers.reduce(function (string, number) {
+	        return string.replace('$', number);
+	    }, string));
+	};
+	exports.interpolateNumbers = interpolateNumbers;
 
 /***/ }
 /******/ ]);
