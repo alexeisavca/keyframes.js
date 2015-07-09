@@ -108,3 +108,13 @@ or
 ```js
 var fadeIn = tween({opacity: 0, opacity: 1})
 ```
+###chain({t1: animation1, t2: animation2})
+Creates a single animation from several subanimations that will be executed consecutively. Requires an object with float keys that indicate at what time(relative to the parent animation) the animation passed as value should run:
+```js
+var fadeOut = transition('opacity', 1, 0)
+var fadeIn = reverse(fadeOut);
+var blink = chain({
+  0: fadeOut,
+  .5: fadeIn
+})
+```
