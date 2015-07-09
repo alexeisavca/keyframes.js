@@ -139,16 +139,15 @@ Will chain the animation with itself _times_ times, **t** will be distributed ev
 ###prerender(ms, animation)
 Will map the animation as to run during _ms_ milliseconds(60 fps) and cache the result, will return a function that will return the result from that cache.
 ###stream(ms, animation, cb, onEnd)
-Will execute the animation in real time(using requestAnimationFrame) during _ms_ milliseconds, will call cb with the current state.
-Will call onEnd after the animation has ended.
+Will execute the animation in real time(using requestAnimationFrame) during _ms_ milliseconds, will call cb each frame with the current state as argument. Will call onEnd when the animation ends.
 ```js
-stream(1000, transition('opacity', 1, 0.5'), state => console.log(state))//{opacity: 0.1}, {opacity: 0.2}, opacity{0.3}...
+stream(1000, transition('opacity', 1, 0.5), state => console.log(state))//{opacity: 0.1}, {opacity: 0.2}, opacity{0.3}...
 ```
 ###infiniteStream(ms, animation, cb)
 Same as stream, but will run the animation infinitely in loops of _ms_ milliseconds and will return a function that,
 when called, will stop the animation.
 ```js
-var stopSpinning = infiniteStream(1000, rotate, intoDom(spinner); //will spin until stopSpinning() is called
+var stopSpinning = infiniteStream(1000, rotate, intoDom(spinner)); //will spin until stopSpinning() is called
 ```
 ###intoDom(DOMElement)
 Returns a function that takes a state as an argument an applies it to the DOMElement. Use with stream:
@@ -167,6 +166,13 @@ import * as easings from "keyframes.js/easings"
 Will return an animation eased by _easingFunction._ Easing function takes the standard easings arguments:
 ```js
 function(currentTime, totalTime, progressRatio, valueSoFar, change)
+```
+Use _bind_ to make your function reusable:
+```js
+var myAwesomeEasing = ease.bind(null, function(currentTime, totalTime, progressRatio, valueSoFar, change){
+//...
+});
+var easedAnimation = myAwesomeEasing(animation)
 ```
 ####Preset easing functions
 The standard Robert Penner's easing formulas are available, use them like this:
