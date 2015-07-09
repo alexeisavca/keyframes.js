@@ -1,5 +1,4 @@
 export const FRAMES = 60;
-export const T_PER_FRAME = 1 / FRAMES;
 import * as easings from "./easings";
 
 //given an initial start and end state...
@@ -56,10 +55,10 @@ export var chain = tweens =>
 export var prerender = (time, tween) => {
     var totalFrames = time / 1000 * FRAMES;
     var frames = [];
-    for(var frame = 0; frame < totalFrames; frame++){
-        frames[frame] = tween(frame * T_PER_FRAME);
+    for(var frame = 0; frame <= totalFrames; frame++){
+        frames[frame] = tween(frame / totalFrames);
     }
-    return t => frames[Math.round(t / T_PER_FRAME)];
+    return t => frames[Math.round(totalFrames * t)];
 };
 
 export function stream(duration, tween, cb){
