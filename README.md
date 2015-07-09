@@ -88,6 +88,17 @@ fadeOut(.25);//{opacity: .75}
 fadeOut(.5);//{opacity: .5}
 fadeOut(.75);//{opacity: .25}
 ```
+This function is smart enough to extract and interpolate numbers from strings, so this will work as you'd expect it:
+```js
+var muchPropertiesWow = tween({
+  width: '1px',
+  transform: 'rotateY(-90deg)'
+}, {
+  width: '100px',
+  transform: 'rotateY(0deg)'
+})
+```
+However, be sure to use the same units in both to and from state.
 ###transition(String propertyName, intialValue, finalValue)
 Connects two states of a single property. The example above could be written as:
 ```js
