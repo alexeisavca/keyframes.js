@@ -32,7 +32,8 @@ var hide = K.tween({
     transform: "scale(0.1) rotate(90deg)",
     opacity: 0
 });
-var hideThenShow = K.toAndFrom(hide);
+var hidAndLinger = K.linger(.25, hide);
+var hideThenShow = K.toAndFrom(hidAndLinger);
 K.stream(2000, K.easings.easeInOutExpo(hideThenShow), K.intoDom(document.getElementById('shape-1')));
                 </div>
                 <button class="btn success btn-block" id="launch-1">Run</button>
