@@ -78,11 +78,12 @@ export function stream(duration, tween, cb, onEnd){
     requestAnimationFrame(doFrame);
 }
 
-export function infiniteStream(duration, tween, cb){
+export function infiniteStream(duration, animation, cb){
     var ended = false;
-    stream(duration, tween, cb, function(){
-        if(!ended) infiniteStream();
-    });
+    var restartLoop = function(){
+        stream(duration, animation, cb, restartLoop);
+    };
+    stream(duration, animation, cb, restartLoop);
     return function(){
         ended = true;
     }

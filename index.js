@@ -172,11 +172,12 @@ module.exports =
 	    requestAnimationFrame(doFrame);
 	}
 
-	function infiniteStream(duration, tween, cb) {
+	function infiniteStream(duration, animation, cb) {
 	    var ended = false;
-	    stream(duration, tween, cb, function () {
-	        if (!ended) infiniteStream();
-	    });
+	    var restartLoop = function restartLoop() {
+	        stream(duration, animation, cb, restartLoop);
+	    };
+	    stream(duration, animation, cb, restartLoop);
 	    return function () {
 	        ended = true;
 	    };
