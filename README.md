@@ -52,11 +52,11 @@ function rotate(t){
 ```
 Let d = 24!  
 Let h equal the current hour!  
-And behold, but requestAnimationFraming
+And there, by requestAnimationFraming
 ```js
 rotate(h/d);
 ```
-I have just made the Earth rotate!"
+I have just made the Earth spin!"
 
 And the Earth span, and there was Day and there was Night, and by the end of the Night the programmer was enlightened.
 
