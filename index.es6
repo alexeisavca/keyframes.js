@@ -76,4 +76,9 @@ export function stream(duration, tween, cb){
     requestAnimationFrame(doFrame);
 }
 
+export var animate = (ms, DOMElement, animation) =>
+    stream(ms, animation, state =>
+        Object.keys(state).forEach(property => DOMElement.style[property] = state[property])
+    );
+
 export {easings as easings};
