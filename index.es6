@@ -22,8 +22,10 @@ export var tween = (from, to) =>
 
 export var transition = (property, from, to) => tween({ [property]: from }, { [property]: to });
 
-export var ensure = (state) =>
+export var ensure = state =>
     () => state;
+
+export var ensureProperty = (property, value) => ensure({[property] : value});
 
 export var reverse = (animation) =>
     t => animation(1 - t);

@@ -103,6 +103,11 @@ module.exports =
 	};
 
 	exports.ensure = ensure;
+	var ensureProperty = function ensureProperty(property, value) {
+	    return ensure(_defineProperty({}, property, value));
+	};
+
+	exports.ensureProperty = ensureProperty;
 	var reverse = function reverse(animation) {
 	    return function (t) {
 	        return animation(1 - t);

@@ -106,6 +106,8 @@ var fadeOut = transition('opacity', 1, 0)
 ```
 ###ensure(Object state)
 Creates and animation that for any 0<t<1 returns the state passed as argument
+###ensureProperty(String property, value)
+Same as ensure({property: value})
 ###reverse(animation)
 Returns an animation that is the reverse of the argument. Using the var _fadeOut_ from above:
 ```js
@@ -138,9 +140,7 @@ is same as
 ```js
 chain({
   0: transition('transform', 'rotateZ(0deg)', 'rotateZ(90deg)'),
-  .3: ensure({
-    transform: 'rotateZ(90deg)'
-  });
+  .3: ensureProperty('transform', 'rotateZ(90deg)')
 })
 ```
 ###toAndFrom(animation)
