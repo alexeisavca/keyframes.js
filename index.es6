@@ -1,6 +1,7 @@
 export const FRAMES = 60;
 import * as easings from "./easings";
 import {sanitizeProperties, unsanitizeProperties, placeholdNumbers, extractNumbers, interpolateNumbers} from "./tools/number-interpolation";
+import {default as mergeObj} from "./tools/merge";
 
 //given an initial start and end state...
 export var tween = (from, to) =>
@@ -77,6 +78,12 @@ export var chain = animations =>
         var relativeT = (t - currentanimationIndex) / animationDuration;
         return currentanimation(relativeT);
     };
+
+export function merge(){
+    var _arguments = arguments;
+    return t => mergeObj.apply(null, Object.keys(_arguments).map(key => _arguments[key](t)));
+}
+
 
 export var prerender = (time, animation) => {
     var totalFrames = time / 1000 * FRAMES;

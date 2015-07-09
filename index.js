@@ -50,8 +50,11 @@ module.exports =
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
 	});
+	exports.merge = merge;
 	exports.stream = stream;
 	exports.infiniteStream = infiniteStream;
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj["default"] = obj; return newObj; } }
 
@@ -62,6 +65,10 @@ module.exports =
 	var easings = _interopRequireWildcard(_easings);
 
 	var _toolsNumberInterpolation = __webpack_require__(2);
+
+	var _toolsMerge = __webpack_require__(3);
+
+	var _toolsMerge2 = _interopRequireDefault(_toolsMerge);
 
 	var FRAMES = 60;
 	exports.FRAMES = FRAMES;
@@ -180,6 +187,16 @@ module.exports =
 	};
 
 	exports.chain = chain;
+
+	function merge() {
+	    var _arguments = arguments;
+	    return function (t) {
+	        return _toolsMerge2["default"].apply(null, Object.keys(_arguments).map(function (key) {
+	            return _arguments[key](t);
+	        }));
+	    };
+	}
+
 	var prerender = function prerender(time, animation) {
 	    var totalFrames = time / 1000 * FRAMES;
 	    var frames = [];
@@ -450,6 +467,30 @@ module.exports =
 	    }, string));
 	};
 	exports.interpolateNumbers = interpolateNumbers;
+
+/***/ },
+/* 3 */
+/***/ function(module, exports) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	exports["default"] = merge;
+
+	function merge() {
+	    var res = {};
+	    for (var index in arguments) {
+	        var obj = arguments[index];
+	        for (var key in obj) {
+	            res[key] = obj[key];
+	        }
+	    }
+	    return res;
+	}
+
+	module.exports = exports["default"];
 
 /***/ }
 /******/ ]);

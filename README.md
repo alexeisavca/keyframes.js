@@ -131,6 +131,21 @@ var blink = chain({
   .5: fadeIn
 })
 ```
+###merge(animation1, animation2, animation3...)
+Merges animations, i.e. "executes" them in parallel.
+```js
+merge(property('width', '1px', '100px'), property('height', '1px', '100'))
+```
+would be the same as
+```js
+tween({
+  width: '1px',
+  height: '1px'
+}, {
+  width: '100px',
+  height: '100px'
+})
+```
 ###linger(t, animation)
 Will return a new animation, in which the second argument will run until _t,_ after that, its last state will be persisted till the end of the resulting animation.
 ```js
