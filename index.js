@@ -93,60 +93,60 @@ module.exports =
 	};
 
 	exports.ensure = ensure;
-	var reverse = function reverse(tween) {
+	var reverse = function reverse(animation) {
 	    return function (t) {
-	        return tween(1 - t);
+	        return animation(1 - t);
 	    };
 	};
 
 	exports.reverse = reverse;
-	var toAndFrom = function toAndFrom(tween) {
+	var toAndFrom = function toAndFrom(animation) {
 	    return chain({
-	        0: tween,
-	        .5: reverse(tween)
+	        0: animation,
+	        .5: reverse(animation)
 	    });
 	};
 
 	exports.toAndFrom = toAndFrom;
-	var repeat = function repeat(times, tween) {
-	    var tweens = {};
+	var repeat = function repeat(times, animation) {
+	    var animations = {};
 	    for (var counter = 1; counter <= times; counter++) {
-	        tweens[1 - counter / times] = tween;
+	        animations[1 - counter / times] = animation;
 	    }
-	    return chain(tweens);
+	    return chain(animations);
 	};
 
 	exports.repeat = repeat;
-	var chain = function chain(tweens) {
+	var chain = function chain(animations) {
 	    return function (t) {
-	        //get the keys(starting time) of all the tweens, ensure they're floats, then find all that precede t or start at t
-	        //the tween with the max starting time of those will be current tween
-	        var currentTweenIndex = Math.max.apply(null, Object.keys(tweens).map(parseFloat).filter(function (time) {
+	        //get the keys(starting time) of all the animations, ensure they're floats, then find all that precede t or start at t
+	        //the animation with the max starting time of those will be current animation
+	        var currentanimationIndex = Math.max.apply(null, Object.keys(animations).map(parseFloat).filter(function (time) {
 	            return time <= t;
 	        }));
-	        var currentTween = tweens[currentTweenIndex];
-	        var tweenDuration =
+	        var currentanimation = animations[currentanimationIndex];
+	        var animationDuration =
 	        /*
-	         get the keys(starting time) of all the tweens, ensure they're all floats, then find all that succeed t
-	         (but not those that start at t, because without that condition we might get the current tween itself)
-	         Add 1(end of the chain) in case current tween is the last one. The lowest number of those will be the t
-	         when current tween ends, we subtract the current tween's starting t to get its duration.
+	         get the keys(starting time) of all the animations, ensure they're all floats, then find all that succeed t
+	         (but not those that start at t, because without that condition we might get the current animation itself)
+	         Add 1(end of the chain) in case current animation is the last one. The lowest number of those will be the t
+	         when current animation ends, we subtract the current animation's starting t to get its duration.
 	        */
-	        Math.min.apply(null, Object.keys(tweens).map(parseFloat).filter(function (time) {
+	        Math.min.apply(null, Object.keys(animations).map(parseFloat).filter(function (time) {
 	            return time > t;
-	        }).concat(1.0)) - currentTweenIndex;
+	        }).concat(1.0)) - currentanimationIndex;
 
-	        var relativeT = (t - currentTweenIndex) / tweenDuration;
-	        return currentTween(relativeT);
+	        var relativeT = (t - currentanimationIndex) / animationDuration;
+	        return currentanimation(relativeT);
 	    };
 	};
 
 	exports.chain = chain;
-	var prerender = function prerender(time, tween) {
+	var prerender = function prerender(time, animation) {
 	    var totalFrames = time / 1000 * FRAMES;
 	    var frames = [];
 	    for (var frame = 0; frame <= totalFrames; frame++) {
-	        frames[frame] = tween(frame / totalFrames);
+	        frames[frame] = animation(frame / totalFrames);
 	    }
 	    return function (t) {
 	        return frames[Math.round(totalFrames * t)];
@@ -155,14 +155,14 @@ module.exports =
 
 	exports.prerender = prerender;
 
-	function stream(duration, tween, cb, onEnd) {
-	    cb(tween(0));
+	function stream(duration, animation, cb, onEnd) {
+	    cb(animation(0));
 	    var start = new Date();
 	    var doFrame = function doFrame() {
 	        var now = new Date();
 	        var elapsed = now - start;
 	        var t = elapsed / duration;
-	        cb(tween(t <= 1 ? t : 1));
+	        cb(animation(t <= 1 ? t : 1));
 	        if (elapsed < duration) {
 	            requestAnimationFrame(doFrame);
 	        } else {
