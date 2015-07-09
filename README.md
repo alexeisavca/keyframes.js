@@ -261,3 +261,8 @@ easeInQuad(animation)
 ##Book VI: Implementations:
 * [React/Flux](https://github.com/alexeisavca/flux-animations)
 * __Roll your own!__ Write a function that can be used as a callback for _stream_ and works with your favourite framework/library, and then submit a pull request. Or write a plugin and link it here in README
+
+## Please read
+![Please read](http://lurkmore.so/images/d/d1/Please_Read.jpg)  
+If you think this software is worth a buck or two, I'd be gald to have it.  
+Please support the caffeine addiction of your humble servant by donating to my PayPal savca.alexei@gmail.com
