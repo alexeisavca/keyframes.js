@@ -84,7 +84,27 @@ var fadeOut = tween({
   opacity: 0
 });
 
-fadeOut(0);//{opacity: 0}
-fadeOut(.5);//opacity: .5}
-fadeOut(.75);//opacity: .75
+fadeOut(.25);//{opacity: .75}
+fadeOut(.5);//{opacity: .5}
+fadeOut(.75);//{opacity: .25}
+```
+###transition(String propertyName, intialValue, finalValue)
+Connects two states of a single property. The example above could be written as:
+```js
+var fadeOut = transition('opacity', 1, 0)
+```
+###ensure(Object state)
+Creates and animation that for any 0<t<1 returns the state passed as argument
+###reverse(animation)
+Returns an animation that is the reverse of the argument. Using the var _fadeOut_ from above:
+```js
+var fadeIn = reverse(fadeOut)
+```
+is the same as:
+```js
+var fadeIn = property('opacity', 0, 1);
+```
+or
+```js
+var fadeIn = tween({opacity: 0, opacity: 1})
 ```
