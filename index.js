@@ -51,6 +51,7 @@ module.exports =
 	    value: true
 	});
 	exports.stream = stream;
+	exports.infiniteStream = infiniteStream;
 
 	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj["default"] = obj; return newObj; } }
 
@@ -154,7 +155,7 @@ module.exports =
 
 	exports.prerender = prerender;
 
-	function stream(duration, tween, cb) {
+	function stream(duration, tween, cb, onEnd) {
 	    cb(tween(0));
 	    var start = new Date();
 	    var doFrame = function doFrame() {
@@ -164,20 +165,32 @@ module.exports =
 	        cb(tween(t <= 1 ? t : 1));
 	        if (elapsed < duration) {
 	            requestAnimationFrame(doFrame);
+	        } else {
+	            onEnd();
 	        }
 	    };
 	    requestAnimationFrame(doFrame);
 	}
 
-	var animate = function animate(ms, DOMElement, animation) {
-	    return stream(ms, animation, function (state) {
+	function infiniteStream(duration, tween, cb) {
+	    var ended = false;
+	    stream(duration, tween, cb, function () {
+	        if (!ended) infiniteStream();
+	    });
+	    return function () {
+	        ended = true;
+	    };
+	}
+
+	var intoDom = function intoDom(DOMElement) {
+	    return function (state) {
 	        return Object.keys(state).forEach(function (property) {
 	            return DOMElement.style[property] = state[property];
 	        });
-	    });
+	    };
 	};
 
-	exports.animate = animate;
+	exports.intoDom = intoDom;
 	exports.easings = easings;
 
 /***/ },

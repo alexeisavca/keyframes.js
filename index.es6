@@ -61,7 +61,7 @@ export var prerender = (time, tween) => {
     return t => frames[Math.round(totalFrames * t)];
 };
 
-export function stream(duration, tween, cb){
+export function stream(duration, tween, cb, onEnd){
     cb(tween(0));
     var start = new Date();
     var doFrame = () => {
@@ -71,14 +71,24 @@ export function stream(duration, tween, cb){
         cb(tween(t <= 1 ? t : 1));
         if(elapsed < duration){
             requestAnimationFrame(doFrame);
+        } else {
+            onEnd();
         }
     };
     requestAnimationFrame(doFrame);
 }
 
-export var animate = (ms, DOMElement, animation) =>
-    stream(ms, animation, state =>
-        Object.keys(state).forEach(property => DOMElement.style[property] = state[property])
-    );
+export function infiniteStream(duration, tween, cb){
+    var ended = false;
+    stream(duration, tween, cb, function(){
+        if(!ended) infiniteStream();
+    });
+    return function(){
+        ended = true;
+    }
+}
+
+export var intoDom = DOMElement =>
+    state => Object.keys(state).forEach(property => DOMElement.style[property] = state[property]);
 
 export {easings as easings};

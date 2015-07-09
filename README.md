@@ -71,7 +71,7 @@ var fadeOut = K.property('opacity', 1, 0);
 var blink = K.toAndFrom(fadeOut);
 var blink4times = K.repeat(4, blink);
 var blink4timesEased = K.easings.easeInOutExpo(blink4times);
-K.animate(1000, document.getElementById('the-thing'), blink4timesEased)
+K.stream(1000, blink4timesEased, K.intoDom(document.getElementById('the-thing')));
 ```
 ##Book IV: The API of the righteous
 "Use these tools, understand and accept them, as it is promised, he who does so will surely achieve enlightment!"
@@ -127,10 +127,22 @@ var blink = toAndFrom(transition('opacity', 1, 0));
 Will chain the animation with itself _times_ times, **t** will be distributed evenly between all the subanimations, each one will consume 1/times of parent **t.**
 ###prerender(ms, animation)
 Will map the animation as to run during _ms_ milliseconds(60 fps) and cache the result, will return a function that will return the result from that cache.
-###stream(ms, animation, cb)
+###stream(ms, animation, cb, onEnd)
 Will execute the animation in real time(using requestAnimationFrame) during _ms_ milliseconds, will call cb with the current state.
+Will call onEnd after the animation has ended.
 ```js
 stream(1000, transition('opacity', 1, 0.5'), state => console.log(state))//{opacity: 0.1}, {opacity: 0.2}, opacity{0.3}...
+```
+###infiniteStream(ms, animation, cb)
+Same as stream, but will run the animation infinitely in loops of _ms_ milliseconds and will return a function that,
+when called, will stop the animation.
+```js
+var stopSpinning = infiniteStream(1000, rotate, intoDom(spinner); //will spin until stopSpinning() is called
+```
+###intoDom(DOMElement)
+Returns a function that takes a state as an argument an applies it to the DOMElement. Use with stream:
+```js
+stream(1000, animations, intoDom(document.getElementById('the-target')))
 ```
 ###Easings
 ```js
