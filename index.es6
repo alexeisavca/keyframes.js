@@ -14,6 +14,9 @@ export var transition = (property, from, to) => tween({ [property]: from }, { [p
 export var ensure = (state) =>
     () => state;
 
+export var reverse = (tween) =>
+    t => tween(1 - t);
+
 export var chain = tweens =>
     t => {
         //get the keys(starting time) of all the tweens, ensure they're floats, then find all that precede t or start at t
