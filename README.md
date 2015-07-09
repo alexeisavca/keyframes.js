@@ -12,7 +12,7 @@ in dispair, he cried:
 patterns exist within you, for patterns are your sacred body, indeed all the good practices flow within you, for good practices
 are your holy blood, indeed all readability and reusability comes from you, for readability and reusablity are your divine
 breath! But tell me, oh, Magnificient Tao, why have you forsaken the writers of animation libraries, why do they all suck?
-It is for our sins, undoubtedly, surely it is because our defiance to write tests and comments and document our code that you
+It is for our sins! Without doubt it is because our defiance to write tests and comments and document our code that you
 send us such punishment!"
 
 And thus answered the Tao of programming:
