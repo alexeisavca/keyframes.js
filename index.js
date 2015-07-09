@@ -193,8 +193,8 @@ module.exports =
 	    var _arguments2 = arguments;
 
 	    var timings = {};
-	    Object.keys(arguments).forEach(function (animation, index) {
-	        timings[index / _arguments2.length] = animation;
+	    Object.keys(arguments).forEach(function (index) {
+	        timings[index / _arguments2.length] = _arguments2[index];
 	    });
 	    return chain(timings);
 	}
