@@ -133,6 +133,12 @@ Will call onEnd after the animation has ended.
 ```js
 stream(1000, transition('opacity', 1, 0.5'), state => console.log(state))//{opacity: 0.1}, {opacity: 0.2}, opacity{0.3}...
 ```
+###infiniteStream(ms, animation, cb)
+Same as stream, but will run the animation infinitely in loops of _ms_ milliseconds and will return a function that,
+when called, will stop the animation.
+```js
+var stopSpinning = infiniteStream(1000, rotate, intoDom(spinner); //will spin until stopSpinning() is called
+```
 ###intoDom(DOMElement)
 Returns a function that takes a state as an argument an applies it to the DOMElement. Use with stream:
 ```js

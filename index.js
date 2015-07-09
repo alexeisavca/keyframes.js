@@ -51,6 +51,7 @@ module.exports =
 	    value: true
 	});
 	exports.stream = stream;
+	exports.infiniteStream = infiniteStream;
 
 	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj["default"] = obj; return newObj; } }
 
@@ -169,6 +170,16 @@ module.exports =
 	        }
 	    };
 	    requestAnimationFrame(doFrame);
+	}
+
+	function infiniteStream(duration, tween, cb) {
+	    var ended = false;
+	    stream(duration, tween, cb, function () {
+	        if (!ended) infiniteStream();
+	    });
+	    return function () {
+	        ended = true;
+	    };
 	}
 
 	var intoDom = function intoDom(DOMElement) {

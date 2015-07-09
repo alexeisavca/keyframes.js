@@ -78,6 +78,16 @@ export function stream(duration, tween, cb, onEnd){
     requestAnimationFrame(doFrame);
 }
 
+export function infiniteStream(duration, tween, cb){
+    var ended = false;
+    stream(duration, tween, cb, function(){
+        if(!ended) infiniteStream();
+    });
+    return function(){
+        ended = true;
+    }
+}
+
 export var intoDom = DOMElement =>
     state => Object.keys(state).forEach(property => DOMElement.style[property] = state[property]);
 
