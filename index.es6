@@ -5,7 +5,6 @@ export var tween = (from, to) =>
         //...for all the properties(width, height, opacity) of the initial state...
         (state, property) => {
             //...will compute the intermediary state at t
-            //console.log(from[property], to[property], t)
             state[property] = from[property] + (to[property] - from[property]) * t;
             return state;
     }, {});
@@ -31,9 +30,6 @@ export var chain = tweens =>
             Math.min.apply(null, Object.keys(tweens).map(parseFloat).filter(time => time > t).concat(1.0)) - currentTweenIndex;
 
         var relativeT = (t - currentTweenIndex) / tweenDuration;
-        if(!relativeT){
-            console.log(Object.keys(tweens).concat(1).map(parseFloat).filter(time => time > t));
-        }
         return currentTween(relativeT);
     };
 
