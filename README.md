@@ -173,3 +173,6 @@ easeInQuad(animation)
 * easeInCirc
 * easeOutCirc
 * easeInOutCirc
+
+##Book V: Practicing the Tao
+[Demo/Playground](http://alexeisavca.github.io/keyframes.js)
