@@ -17,6 +17,19 @@ export var ensure = (state) =>
 export var reverse = (tween) =>
     t => tween(1 - t);
 
+export var toAndFrom = tween => chain({
+    0: tween,
+    .5: reverse(tween)
+});
+
+export var repeat = (times, tween) => {
+    var tweens = {};
+    for(var counter = 1; counter <= times; counter++){
+        tweens[1 - counter/times] = tween;
+    }
+    return chain(tweens);
+};
+
 export var chain = tweens =>
     t => {
         //get the keys(starting time) of all the tweens, ensure they're floats, then find all that precede t or start at t
