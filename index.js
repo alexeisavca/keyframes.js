@@ -45,15 +45,15 @@ module.exports =
 /* 0 */
 /***/ function(module, exports, __webpack_require__) {
 
-	"use strict";
+	'use strict';
 
-	Object.defineProperty(exports, "__esModule", {
+	Object.defineProperty(exports, '__esModule', {
 	    value: true
 	});
 	exports.stream = stream;
 	exports.infiniteStream = infiniteStream;
 
-	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj["default"] = obj; return newObj; } }
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj['default'] = obj; return newObj; } }
 
 	function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
@@ -63,6 +63,25 @@ module.exports =
 
 	var FRAMES = 60;
 	exports.FRAMES = FRAMES;
+	var NUMBER_REGEXP = /[-]?(0|[1-9][0-9]*)(\.[0-9]+)?([eE][+-]?[0-9]+)?/g;
+
+	var sanitizeProperties = function sanitizeProperties(property) {
+	    return property.replace('3d', 'THREE_D');
+	};
+	var unsanitizeProperties = function unsanitizeProperties(property) {
+	    return property.replace('THREE_D', '3d');
+	};
+	var placeholdNumbers = function placeholdNumbers(string) {
+	    return sanitizeProperties(string).replace(NUMBER_REGEXP, '$');
+	};
+	var extractNumbers = function extractNumbers(string) {
+	    return string.match(NUMBER_REGEXP).map(parseFloat);
+	};
+	var interpolateNumbers = function interpolateNumbers(string, numbers) {
+	    return unsanitizeProperties(numbers.reduce(function (string, number) {
+	        return string.replace('$', number);
+	    }, string));
+	};
 
 	//given an initial start and end state...
 	var tween = function tween(from, to) {
@@ -72,8 +91,16 @@ module.exports =
 	            return Object.keys(from).reduce(
 	            //...for all the properties(width, height, opacity) of the initial state...
 	            function (state, property) {
-	                //...will compute the intermediary state at t
-	                state[property] = from[property] + (to[property] - from[property]) * t;
+	                //...will extract numbers from the string("12px" => 12)
+	                var strFrom = from[property] + '';
+	                var numbersPlaceholder = placeholdNumbers(strFrom);
+	                var fromNumbers = extractNumbers(strFrom);
+	                var strTo = to[property] + '';
+	                var toNumbers = extractNumbers(strTo);
+	                //...will compute the intermediary state of each number at t and will merge them into a CSS string again
+	                state[property] = interpolateNumbers(numbersPlaceholder, fromNumbers.map(function (number, index) {
+	                    return number + (toNumbers[index] - number) * t;
+	                }));
 	                return state;
 	            }, {});
 	        }
@@ -165,7 +192,7 @@ module.exports =
 	        cb(animation(t <= 1 ? t : 1));
 	        if (elapsed < duration) {
 	            requestAnimationFrame(doFrame);
-	        } else if ("function" == typeof onEnd) {
+	        } else if ('function' == typeof onEnd) {
 	            onEnd();
 	        }
 	    };

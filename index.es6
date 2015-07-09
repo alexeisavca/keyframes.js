@@ -1,5 +1,13 @@
 export const FRAMES = 60;
+const NUMBER_REGEXP = /[-]?(0|[1-9][0-9]*)(\.[0-9]+)?([eE][+-]?[0-9]+)?/g;
 import * as easings from "./easings";
+
+var sanitizeProperties = property => property.replace('3d', 'THREE_D');
+var unsanitizeProperties = property => property.replace('THREE_D', '3d');
+var placeholdNumbers = string => sanitizeProperties(string).replace(NUMBER_REGEXP, '$');
+var extractNumbers = string => string.match(NUMBER_REGEXP).map(parseFloat);
+var interpolateNumbers = (string, numbers) =>
+    unsanitizeProperties(numbers.reduce((string, number) => string.replace('$', number), string));
 
 //given an initial start and end state...
 export var tween = (from, to) =>
@@ -7,8 +15,15 @@ export var tween = (from, to) =>
     t => Object.keys(from).reduce(
         //...for all the properties(width, height, opacity) of the initial state...
         (state, property) => {
-            //...will compute the intermediary state at t
-            state[property] = from[property] + (to[property] - from[property]) * t;
+            //...will extract numbers from the string("12px" => 12)
+            var strFrom = from[property] + "";
+            var numbersPlaceholder = placeholdNumbers(strFrom);
+            var fromNumbers = extractNumbers(strFrom);
+            var strTo = to[property] + "";
+            var toNumbers = extractNumbers(strTo);
+            //...will compute the intermediary state of each number at t and will merge them into a CSS string again
+            state[property] = interpolateNumbers(numbersPlaceholder, fromNumbers.map((number, index) =>
+                number + (toNumbers[index] - number) * t));
             return state;
     }, {});
 
