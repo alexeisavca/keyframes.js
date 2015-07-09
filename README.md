@@ -1,7 +1,7 @@
 # keyframes.js
 A functional animation library
 
-# Book I: Motivation
+## Book I: Motivation
 Once upon a time there was a programmer, he discovered the ways of Tao at an early age, and he's been following them ever
 since, knowing that he'll never achieve perfection, for only the Tao of Programming is perfect, but also knowing that the road
 itself is the reward. And often that programmer needed an animation library, but alas, every one of them was filled with heresy
@@ -30,4 +30,32 @@ code, and your mind is taunted from playing too much StarCraft! Go now, light th
 that kettle you shall pour yourself a very strong coffee, the drink of the gods! Let the sacred drink of coffee flow inside
 you, and you shall see!"
 
-And thus he saw, drinking the divine ambrosia and staring into city light, he finally saw!
+And thus he saw, drinking the divine ambrosia and staring into city lights, he finally saw!
+
+##Book II: Introduction
+In the beginning there was T, and there was S. And T was time, and S was state, and T was a set of real numbers from 0 to 1, 0 being the beginning of all things, and 1 the end of them. And S was the set of the possible CSS styles, all the combinations of CSS, CSS3 and even vendor specific properties existed within S. And from the fusion of T and S, there was a function of T upon S, f: T -> S.
+
+"Behold!" a voice said, "For that function is the animation in its purest form!"
+
+"But how there can be an animation with nothing to animate? And what use is the animation if it lasts an eternity?" doubted the programmer.
+
+"Oh you of little faith! Shall you question me next what use is the Pythagorean theorem without a triangle to measure? Or the associative law without taxes to pay? Truly, those who cannot see beyond particularities walk the path of antipatterns, they shall never comprehend the Tao! But those who see beyond the lines of code, beyond the current project, those who see the universal abstraction, they walk the path of the righteous, and they shall achieve enlightment! For truly, as long as the faithful understands the abstraction, he shall find plenty of opportunities to implement it, but the sinner, he who is blind to the mathematical model, even after implementing MAX_INT isolated cases of it, shall not see the diamond that hides beneaths its facets!"
+
+The programmer stood silent in awe, as the voice spoke thus:
+
+"Behold! Let
+```js
+function rotate(t){
+  var grades = 360 * t;
+  return `transform: rotateX(${grades})`
+}
+```
+Let d = 24!  
+Let h equal the current hour!  
+And behold, but requestAnimationFraming
+```js
+rotate(h/d);
+```
+I have just made the Earth rotate!"
+
+And the Earth span, and there was Day and there was Night, and by the end of the Night the programmer was enlightened.
