@@ -1,3 +1,6 @@
+export const FRAMES = 60;
+export const T_PER_FRAME = 1 / FRAMES;
+
 //given an initial start and end state...
 export var tween = (from, to) =>
     //...return a function, that for any float 0<t<1...
@@ -48,6 +51,15 @@ export var chain = tweens =>
         var relativeT = (t - currentTweenIndex) / tweenDuration;
         return currentTween(relativeT);
     };
+
+export var prerender = (time, tween) => {
+    var totalFrames = time / 1000 * FRAMES;
+    var frames = [];
+    for(var frame = 0; frame < totalFrames; frame++){
+        frames[frame] = tween(frame * T_PER_FRAME);
+    }
+    return t => frames[Math.round(t / T_PER_FRAME)];
+};
 
 export function stream(duration, tween, cb){
     cb(tween(0));
