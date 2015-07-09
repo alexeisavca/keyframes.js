@@ -70,7 +70,7 @@ import * as K from "keyframes.js"
 var fadeOut = K.property('opacity', 1, 0);
 var blink = K.toAndFrom(fadeOut);
 var blink4times = K.repeat(4, blink);
-var blink4timesEased = K.easeInOutExpo(blink4times);
+var blink4timesEased = K.easings.easeInOutExpo(blink4times);
 K.animate(1000, document.getElementById('the-thing'), blink4timesEased)
 ```
 ##Book IV: The API of the righteous
@@ -132,3 +132,44 @@ Will execute the animation in real time(using requestAnimationFrame) during _ms_
 ```js
 stream(1000, transition('opacity', 1, 0.5'), state => console.log(state))//{opacity: 0.1}, {opacity: 0.2}, opacity{0.3}...
 ```
+###Easings
+```js
+import {easings} from "keyframes.js"
+```
+or
+```js
+import * as easings from "keyframes.js/easings"
+```
+####ease(easingFunction, animation)
+Will return an animation eased by _easingFunction._ Easing function takes the standard easings arguments:
+```js
+function(currentTime, totalTime, progressRatio, valueSoFar, change)
+```
+####Preset easing functions
+The standard Robert Penner's easing formulas are available, use them like this:
+```js
+easeInQuad(animation)
+```
+####List of preset easing functions
+* linear  
+* easeInQuad  
+* easeOutQuad  
+* easeInOutQuad
+* easeInCubic
+* easeOutCubic
+* easeInOutCubic
+* easeInQuart
+* easeOutQuart
+* easeInOutQuart
+* easeInQuint
+* easeOutQuint
+* easeInOutQuint
+* easeInSine
+* easeOutSine
+* easeInOutSine
+* easeInExpo
+* easeOutExpo
+* easeInOutExpo
+* easeInCirc
+* easeOutCirc
+* easeInOutCirc
