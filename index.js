@@ -110,6 +110,13 @@ module.exports =
 	};
 
 	exports.reverse = reverse;
+	var linger = function linger(t, animation) {
+	    return chain(_defineProperty({
+	        0: animation
+	    }, t, ensure(animation(1))));
+	};
+
+	exports.linger = linger;
 	var toAndFrom = function toAndFrom(animation) {
 	    return chain({
 	        0: animation,

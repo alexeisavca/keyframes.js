@@ -28,6 +28,11 @@ export var ensure = (state) =>
 export var reverse = (animation) =>
     t => animation(1 - t);
 
+export var linger = (t, animation) => chain({
+    0: animation,
+    [t]: ensure(animation(1))
+});
+
 export var toAndFrom = animation => chain({
     0: animation,
     .5: reverse(animation)

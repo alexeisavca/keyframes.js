@@ -17,7 +17,7 @@ send us such punishment!"
 
 And thus answered the Tao of programming:
 
-"Do not despair, my child, for I have chosen you to write an animation library that will be the essense of my divine will!"
+"Do not despair, my child, for I have chosen you to write an animation library that will be the essence of my divine will!"
 
 Humbled, the programmer fell unto his knees, and rasing his hands toward the bright light that was the Tao, he plead:
 
@@ -98,8 +98,8 @@ var muchPropertiesWow = tween({
   transform: 'rotateY(0deg)'
 })
 ```
-However, be sure to use the same units in both to and from state.
-###transition(String propertyName, intialValue, finalValue)
+However, be sure to use the same units in both to and from state. Even if a value is 0, still use units, i.e _0px, 0deg_ etc.
+###transition(String propertyName, initialValue, finalValue)
 Connects two states of a single property. The example above could be written as:
 ```js
 var fadeOut = transition('opacity', 1, 0)
@@ -127,6 +127,20 @@ var fadeIn = reverse(fadeOut);
 var blink = chain({
   0: fadeOut,
   .5: fadeIn
+})
+```
+###linger(t, animation)
+Will return a new animation, in which the second argument will run until _t,_ after that, its last state will be persisted till the end of the resulting animation.
+```js
+linger(.3, transition('transform', 'rotateZ(0deg)', 'rotateZ(90deg)'))
+```
+is same as
+```js
+chain({
+  0: transition('transform', 'rotateZ(0deg)', 'rotateZ(90deg)'),
+  .3: ensure({
+    transform: 'rotateZ(90deg)'
+  });
 })
 ```
 ###toAndFrom(animation)
