@@ -61,6 +61,8 @@ module.exports =
 
 	var easings = _interopRequireWildcard(_easings);
 
+	var _toolsNumberInterpolation = __webpack_require__(2);
+
 	var FRAMES = 60;
 	exports.FRAMES = FRAMES;
 
@@ -72,8 +74,16 @@ module.exports =
 	            return Object.keys(from).reduce(
 	            //...for all the properties(width, height, opacity) of the initial state...
 	            function (state, property) {
-	                //...will compute the intermediary state at t
-	                state[property] = from[property] + (to[property] - from[property]) * t;
+	                //...will extract numbers from the string("12px" => 12)
+	                var strFrom = from[property] + "";
+	                var numbersPlaceholder = (0, _toolsNumberInterpolation.placeholdNumbers)(strFrom);
+	                var fromNumbers = (0, _toolsNumberInterpolation.extractNumbers)(strFrom);
+	                var strTo = to[property] + "";
+	                var toNumbers = (0, _toolsNumberInterpolation.extractNumbers)(strTo);
+	                //...will compute the intermediary state of each number at t and will merge them into a CSS string again
+	                state[property] = (0, _toolsNumberInterpolation.interpolateNumbers)(numbersPlaceholder, fromNumbers.map(function (number, index) {
+	                    return number + (toNumbers[index] - number) * t;
+	                }));
 	                return state;
 	            }, {});
 	        }
@@ -369,6 +379,39 @@ module.exports =
 	});
 	//END Robert Penner's easing formulas
 	exports.easeInOutCirc = easeInOutCirc;
+
+/***/ },
+/* 2 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	Object.defineProperty(exports, '__esModule', {
+	    value: true
+	});
+	var NUMBER_REGEXP = /[-]?(0|[1-9][0-9]*)(\.[0-9]+)?([eE][+-]?[0-9]+)?/g;
+	var sanitizeProperties = function sanitizeProperties(property) {
+	    return property.replace('3d', 'THREE_D');
+	};
+	exports.sanitizeProperties = sanitizeProperties;
+	var unsanitizeProperties = function unsanitizeProperties(property) {
+	    return property.replace('THREE_D', '3d');
+	};
+	exports.unsanitizeProperties = unsanitizeProperties;
+	var placeholdNumbers = function placeholdNumbers(string) {
+	    return sanitizeProperties(string).replace(NUMBER_REGEXP, '$');
+	};
+	exports.placeholdNumbers = placeholdNumbers;
+	var extractNumbers = function extractNumbers(string) {
+	    return string.match(NUMBER_REGEXP).map(parseFloat);
+	};
+	exports.extractNumbers = extractNumbers;
+	var interpolateNumbers = function interpolateNumbers(string, numbers) {
+	    return unsanitizeProperties(numbers.reduce(function (string, number) {
+	        return string.replace('$', number);
+	    }, string));
+	};
+	exports.interpolateNumbers = interpolateNumbers;
 
 /***/ }
 /******/ ]);
