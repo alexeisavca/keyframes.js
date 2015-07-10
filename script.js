@@ -66,7 +66,7 @@
 	    });
 	};
 
-	for (var counter = 1; counter <= 2; counter++) {
+	for (var counter = 1; counter <= 3; counter++) {
 	    _loop();
 	}
 

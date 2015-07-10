@@ -4,7 +4,7 @@ var ace = require('brace');
 require('brace/mode/javascript');
 require('brace/theme/monokai');
 
-for(var counter = 1; counter <= 2; counter++){
+for(var counter = 1; counter <= 3; counter++){
     let editor = ace.edit(`editor-${counter}`);
     editor.getSession().setMode('ace/mode/javascript');
     editor.setTheme('ace/theme/monokai');

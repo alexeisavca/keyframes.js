@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="style.css"/>
 </head>
 <body>
-    <div class="container">
+    <div class="container-fluid">
         <div class="row">
             <div class="col-md-12 text-center">
                 <a href="https://github.com/alexeisavca/keyframes.js">View source and documentation on github</a>
@@ -23,7 +23,7 @@
             <h2 class="col-md-12">
                 Roll
             </h2>
-            <div class="col-md-8">
+            <div class="col-md-6">
                 <div id="editor-1" class="editor">
 var moveRight = K.chainEvenly(
     K.ensureProperty('marginLeft', "0px"),
@@ -42,13 +42,13 @@ K.stream(4000, K.prerender(4000, rollRightThenBack), K.intoDom(document.getEleme
                 </div>
                 <button class="btn success btn-block" id="launch-1">Run</button>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-6">
                 <div id="shape-1" class="rect"></div>
             </div>
             <h2 class="col-md-12">
                 Hide/show
             </h2>
-            <div class="col-md-8">
+            <div class="col-md-6">
                 <div id="editor-2" class="editor">
 var hide = K.tween({
     transform: "scale(1) rotate(0deg)",
@@ -63,8 +63,41 @@ K.stream(2000, K.easings.easeInOutExpo(hideThenShow), K.intoDom(document.getElem
                 </div>
                 <button class="btn success btn-block" id="launch-2">Run</button>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-6">
                 <div id="shape-2" class="rect"></div>
+            </div>
+            <h2 class="col-md-12">
+                Stress test
+            </h2>
+            <div class="col-md-6">
+                <div id="editor-3" class="editor">
+var NR_RECTS = 500;
+var markup = &quot;&quot;;
+for(var counter=0; counter&lt;NR_RECTS; counter++){
+    markup += '&lt;div class=&quot;rect&quot; style=&quot;&quot;&gt;&lt;/div&gt;';
+}
+
+document.getElementById('shape-3').innerHTML = markup;
+var rects = document.querySelectorAll(&quot;#shape-3 div&quot;);
+var rotate = K.transition('transform', 'rotateZ(0deg)', 'rotateZ(360deg)');
+var prerenderedRotate = K.prerender(500, rotate);
+K.infiniteStream(500, rotate, function(state){
+    Object.keys(rects).forEach(function(index){
+        if('length' == index) return;
+        var rect = rects[index];
+        Object.keys(state).forEach(function(property){
+            rect.style[property] = state[property];
+        })
+    })
+})
+                </div>
+                <button class="btn success btn-block" id="launch-3">Run</button>
+            </div>
+            <div class="col-md-6" id="shape-3">
+            </div>
+
+            <div class="col-md-12 text-center">
+                <a href="https://github.com/alexeisavca/keyframes.js">View source and documentation on github</a>
             </div>
         </div>
     </div>
