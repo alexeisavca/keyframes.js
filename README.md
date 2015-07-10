@@ -73,6 +73,18 @@ var blink4times = K.repeat(4, blink);
 var blink4timesEased = K.easings.easeInOutExpo(blink4times);
 K.stream(1000, blink4timesEased, K.intoDom(document.getElementById('the-thing')));
 ```
+Here and below _animation_ means a function of T over S, f: T->S, where T is a set of real numbers from 0 to 1, inclusive, and S is a set of flat(1 level) objects. Any function that takes a real number n, 0 <= n <= 1 and returns a flat object is a
+valid animation that can be used with this library. By convention, any function that returns an animation will be called _generator,_ for example
+```js
+function fadeTo(opacity){
+  return function(t){
+    return {
+      opacity: opacity * t
+    }
+  }
+}
+```
+is a generator.
 ##Book IV: The API of the righteous
 "Use these tools, understand and accept them, as it is promised, he who does so will surely achieve enlightment!"
 ###tween(Object from, Object to)
