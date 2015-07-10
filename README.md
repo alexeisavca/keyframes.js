@@ -1,6 +1,8 @@
 # keyframes.js
 A functional animation library
 
+[TL;DR](https://github.com/alexeisavca/keyframes.js#book-iii-enlighment)
+
 ## Book I: Motivation
 Once upon a time there was a programmer, he discovered the ways of Tao at an early age, and he's been following them ever
 since, knowing that he'll never achieve perfection, for only the Tao of Programming is perfect, but also knowing that the road
