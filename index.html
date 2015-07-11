@@ -95,6 +95,33 @@ K.infiniteStream(500, rotate, function(state){
             </div>
             <div class="col-md-6" id="shape-3">
             </div>
+            <h2 class="col-md-12">
+                Rendering to CSS
+            </h2>
+            <div class="col-md-6">
+                <div id="editor-4" class="editor">
+var animation =K.toAndFrom(
+    K.easings.easeInExpo(
+        K.transition('transform', 'translateY(0px)', 'translateY(150px')
+    )
+)
+
+var keyframes = K.toCss('from-keyframes-js-with-love', 60, animation);
+var css = "#shape-4{animation: from-keyframes-js-with-love 1s infinite}\n" + keyframes;
+
+cssEditor.getSession().setValue( css );
+document.getElementById('style-1').innerHTML = css;
+                </div>
+                <button class="btn success btn-block" id="launch-4">Run</button>
+            </div>
+            <div class="col-md-1">
+                <style id="style-1"></style>
+                <div id="shape-4" class="rect"></div>
+            </div>
+            <div class="col-md-5">
+                <div id="css-editor-1" class="editor">
+                </div>
+            </div>
 
             <div class="col-md-12 text-center">
                 <a href="https://github.com/alexeisavca/keyframes.js">View source and documentation on github</a>
