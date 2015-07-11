@@ -54,6 +54,7 @@ module.exports =
 	exports.merge = merge;
 	exports.stream = stream;
 	exports.infiniteStream = infiniteStream;
+	exports.toCss = toCss;
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
@@ -247,6 +248,18 @@ module.exports =
 	    return function () {
 	        ended = true;
 	    };
+	}
+
+	function toCss(name, nrFrames, animation) {
+	    var str = "@keyframes " + name + "{\n";
+	    for (var frame = 0; frame <= nrFrames; frame++) {
+	        var state = animation(frame / nrFrames);
+	        var strState = Object.keys(state).map(function (key) {
+	            return key + ":" + state[key];
+	        }).join(";");
+	        str += "\t" + frame / nrFrames * 100 + "%{" + strState + "}\n";
+	    }
+	    return str + "}";
 	}
 
 	var intoDom = function intoDom(DOMElement) {

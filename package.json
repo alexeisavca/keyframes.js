@@ -1,6 +1,6 @@
 {
   "name": "keyframes.js",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "A keyframe library for JS",
   "main": "index.js",
   "scripts": {

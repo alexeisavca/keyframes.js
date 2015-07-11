@@ -1,6 +1,10 @@
 # keyframes.js
 A functional animation library
 
+[Demo/Playground/Tutorial](http://alexeisavca.github.io/keyframes.js)
+
+[TL;DR](https://github.com/alexeisavca/keyframes.js#book-iii-enlighment)
+
 ## Book I: Motivation
 Once upon a time there was a programmer, he discovered the ways of Tao at an early age, and he's been following them ever
 since, knowing that he'll never achieve perfection, for only the Tao of Programming is perfect, but also knowing that the road
@@ -255,9 +259,11 @@ easeInQuad(animation)
 * easeInOutCirc
 * __Roll your own!__ Add your easing function to keyframes.js/easings and then create a pull request.
 
-##Book V: Practicing the Tao
-[Demo/Playground](http://alexeisavca.github.io/keyframes.js)
-
-##Book VI: Implementations:
+##Implementations:
 * [React/Flux](https://github.com/alexeisavca/flux-animations)
 * __Roll your own!__ Write a function that can be used as a callback for _stream_ and works with your favourite framework/library, and then submit a pull request. Or write a plugin and link it here in README
+
+## Please read
+![Please read](http://lurkmore.so/images/d/d1/Please_Read.jpg)  
+If you think this software is worth a buck or two, I'd be gald to have it.  
+Please support the caffeine addiction of your humble servant by donating to my PayPal savca.alexei@gmail.com
