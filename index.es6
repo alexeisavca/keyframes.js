@@ -130,6 +130,16 @@ export function infiniteStream(duration, animation, cb){
     }
 }
 
+export function toCss(name, nrFrames, animation){
+    var str = `@keyframes ${name}{\n`;
+    for(var frame = 0; frame <= nrFrames; frame++){
+        var state = animation(frame/nrFrames);
+        var strState = Object.keys(state).map(key => `${key}:${state[key]}`).join(";");
+        str += `\t${frame / nrFrames * 100}%{${strState}}\n`;
+    }
+    return str + '}';
+}
+
 export var intoDom = DOMElement =>
     state => Object.keys(state).forEach(property => DOMElement.style[property] = state[property]);
 
