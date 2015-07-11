@@ -209,6 +209,8 @@ Returns a function that takes a state as an argument an applies it to the DOMEle
 ```js
 stream(1000, animations, intoDom(document.getElementById('the-target')))
 ```
+###toCss(animationName, frames, animation)
+Generates CSS @keyframes with the specified name and number of keyframes and returns the string
 ###Easings
 ```js
 import {easings} from "keyframes.js"
