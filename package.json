@@ -4,7 +4,18 @@
   "description": "A keyframe library for JS",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest"
+  },
+  "jest": {
+    "scriptPreprocessor": "./node_modules/babel-jest",
+    "testFileExtensions": [
+      "es6"
+    ],
+    "moduleFileExtensions": [
+      "js",
+      "json",
+      "es6"
+    ]
   },
   "repository": {
     "type": "git",
@@ -21,6 +32,8 @@
   },
   "homepage": "https://github.com/alexeisavca/keyframes.js",
   "devDependencies": {
-    "babel-loader": "^5.3.1"
+    "babel-jest": "^5.3.0",
+    "babel-loader": "^5.3.1",
+    "jest-cli": "^0.4.15"
   }
 }
