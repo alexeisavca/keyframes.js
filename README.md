@@ -1,11 +1,11 @@
-# keyframes.js
+#  keyframes.js
 A functional animation library
 
 [Demo/Playground/Tutorial](http://alexeisavca.github.io/keyframes.js)
 
-[TL;DR](https://github.com/alexeisavca/keyframes.js#book-iii-enlighment)
+[TL;DR](https://github.com/alexeisavca/keyframes.js# book-iii-enlighment)
 
-## Book I: Motivation
+##  Book I: Motivation
 Once upon a time there was a programmer, he discovered the ways of Tao at an early age, and he's been following them ever
 since, knowing that he'll never achieve perfection, for only the Tao of Programming is perfect, but also knowing that the road
 itself is the reward. And often that programmer needed an animation library, but alas, every one of them was filled with heresy
@@ -36,7 +36,7 @@ you, and you shall see!"
 
 And thus he saw, drinking the divine ambrosia and staring into city lights, he saw!
 
-##Book II: Introduction
+## Book II: Introduction
 In the beginning there was T, and there was S. And T was time, and S was state, and T was a set of real numbers from 0 to 1, 0 being the beginning of all things, and 1 the end of them. And S was the set of the possible CSS styles, all the combinations of CSS, CSS3 and even vendor specific properties existed within S. And from the fusion of T and S, there was a function of T upon S, f: T -> S.
 
 "Behold!" a voice said, "For that function is the animation in its purest form!"
@@ -64,7 +64,7 @@ I have just made the Earth spin!"
 
 And the Earth span, and there was Day and there was Night, and by the end of the Night the programmer was enlightened.
 
-##Book III: Enlighment
+##  Book III: Enlighment
 "Behold! For this is the code of the righteous!"
 ```
 npm install keyframes.js
@@ -89,9 +89,9 @@ function fadeTo(opacity){
 }
 ```
 is a generator.
-##Book IV: The API of the righteous
+## Book IV: The API of the righteous
 "Use these tools, understand and accept them, as it is promised, he who does so will surely achieve enlightment!"
-###tween(Object from, Object to)
+### tween(Object from, Object to)
 Returns an animation that connects the from and to states
 ```js
 var fadeOut = tween({
@@ -115,16 +115,16 @@ var muchPropertiesWow = tween({
 })
 ```
 However, be sure to use the same units in both to and from state. Even if a value is 0, still use units, i.e _0px, 0deg_ etc.
-###transition(String propertyName, initialValue, finalValue)
+### transition(String propertyName, initialValue, finalValue)
 Connects two states of a single property. The example above could be written as:
 ```js
 var fadeOut = transition('opacity', 1, 0)
 ```
-###ensure(Object state)
+### ensure(Object state)
 Creates and animation that for any 0<t<1 returns the state passed as argument
-###ensureProperty(String property, value)
+### ensureProperty(String property, value)
 Same as ensure({property: value})
-###reverse(animation)
+### reverse(animation)
 Returns an animation that is the reverse of the argument. Using the var _fadeOut_ from above:
 ```js
 var fadeIn = reverse(fadeOut)
@@ -137,7 +137,7 @@ or
 ```js
 var fadeIn = tween({opacity: 0, opacity: 1})
 ```
-###chain({t1: animation1, t2: animation2})
+### chain({t1: animation1, t2: animation2})
 Creates a single animation from several subanimations that will be executed consecutively. Requires an object with float keys that indicate at what time(relative to the parent animation) the animation passed as value should run:
 ```js
 var fadeOut = transition('opacity', 1, 0)
@@ -147,9 +147,9 @@ var blink = chain({
   .5: fadeIn
 })
 ```
-###chainEvenly(animation1, animation2, animation3...)
+### chainEvenly(animation1, animation2, animation3...)
 Will chain all the animations passed as arguments, each one receiving a 1/nrArguments in parents' timeline
-###merge(animation1, animation2, animation3...)
+### merge(animation1, animation2, animation3...)
 Merges animations, i.e. "executes" them in parallel.
 ```js
 merge(property('width', '1px', '100px'), property('height', '1px', '100'))
@@ -164,7 +164,7 @@ tween({
   height: '100px'
 })
 ```
-###linger(t, animation)
+### linger(t, animation)
 Will return a new animation, in which the second argument will run until _t,_ after that, its last state will be persisted till the end of the resulting animation.
 ```js
 linger(.3, transition('transform', 'rotateZ(0deg)', 'rotateZ(90deg)'))
@@ -176,42 +176,42 @@ chain({
   .3: ensureProperty('transform', 'rotateZ(90deg)')
 })
 ```
-###foreshadow(t, animation)
+### foreshadow(t, animation)
 The counterpart of linger. Will staticly persist the animation's first frame until t, then will play the animation until the end
-###imposePresence(from, to, animation)
+### imposePresence(from, to, animation)
 A marriage of _foreshadow_ and _linger,_ will persist the animation's first frame until _from,_ will animate the animation from _from_ to _to_ and will persist its last frame from _to_ till the end.
 Keep in mind it is **not** the same as
 ```js
 foreshadow(from, linger(to, animation)
 ```
-###toAndFrom(animation)
+### toAndFrom(animation)
 Will chain the animation with its reverse, the first animation will end and the second will start at .5. The example above could be written as
 ```js
 var blink = toAndFrom(transition('opacity', 1, 0));
 ```
-###repeat(times, animation)
+### repeat(times, animation)
 Will chain the animation with itself _times_ times, **t** will be distributed evenly between all the subanimations, each one will consume 1/times of parent **t.**
-###prerender(ms, animation)
+### prerender(ms, animation)
 Will map the animation as to run during _ms_ milliseconds(60 fps) and cache the result, will return a function that will return the result from that cache.
 ###stream(ms, animation, cb, onEnd)
 Will execute the animation in real time(using requestAnimationFrame) during _ms_ milliseconds, will call cb each frame with the current state as argument. Will call onEnd when the animation ends.
 ```js
 stream(1000, transition('opacity', 1, 0.5), state => console.log(state))//{opacity: 0.1}, {opacity: 0.2}, opacity{0.3}...
 ```
-###infiniteStream(ms, animation, cb)
+### infiniteStream(ms, animation, cb)
 Same as stream, but will run the animation infinitely in loops of _ms_ milliseconds and will return a function that,
 when called, will stop the animation.
 ```js
 var stopSpinning = infiniteStream(1000, rotate, intoDom(spinner)); //will spin until stopSpinning() is called
 ```
-###intoDom(DOMElement)
+### intoDom(DOMElement)
 Returns a function that takes a state as an argument an applies it to the DOMElement. Use with stream:
 ```js
 stream(1000, animations, intoDom(document.getElementById('the-target')))
 ```
-###toCss(animationName, frames, animation)
+### toCss(animationName, frames, animation)
 Generates CSS @keyframes with the specified name and number of keyframes and returns the string
-###Easings
+### Easings
 ```js
 import {easings} from "keyframes.js"
 ```
@@ -219,7 +219,7 @@ or
 ```js
 import * as easings from "keyframes.js/easings"
 ```
-####ease(easingFunction, animation)
+#### ease(easingFunction, animation)
 Will return an animation eased by _easingFunction._ Easing function takes the standard easings arguments:
 ```js
 function(currentTime, totalTime, progressRatio, valueSoFar, change)
@@ -231,12 +231,12 @@ var myAwesomeEasing = ease.bind(null, function(currentTime, totalTime, progressR
 });
 var easedAnimation = myAwesomeEasing(animation)
 ```
-####Preset easing functions
+#### Preset easing functions
 The standard Robert Penner's easing formulas are available, use them like this:
 ```js
 easeInQuad(animation)
 ```
-####List of preset easing functions
+#### List of preset easing functions
 * linear  
 * easeInQuad  
 * easeOutQuad  
@@ -261,11 +261,11 @@ easeInQuad(animation)
 * easeInOutCirc
 * __Roll your own!__ Add your easing function to keyframes.js/easings and then create a pull request.
 
-##Implementations:
+## Implementations:
 * [React/Flux](https://github.com/alexeisavca/flux-animations)
 * __Roll your own!__ Write a function that can be used as a callback for _stream_ and works with your favourite framework/library, and then submit a pull request. Or write a plugin and link it here in README
 
-## Please read
+##  Please read
 ![Please read](http://lurkmore.so/images/d/d1/Please_Read.jpg)  
 If you think this software is worth a buck or two, I'd be gald to have it.  
 Please support the caffeine addiction of your humble servant by donating to my PayPal savca.alexei@gmail.com
